@@ -2,27 +2,18 @@ package todolist.Model;
 
 public class Task {
     // atributos
-    // private int usuario;
     private String data;
     private String nome;
     private boolean done;
 
     // Métodos
     public Task(String data, String nome) {
-        // this.usuario = usuario;
         this.data = data;
         this.nome = nome;
         this.done = false;
     }
 
-    // Getters and setters
-    // public int getUsuario() {
-    //     return usuario;
-    // }
-
-    // public void setUsuario(int usuario) {
-    //     this.usuario = usuario;
-    // }
+ 
 
     public String getData() {
         return data;

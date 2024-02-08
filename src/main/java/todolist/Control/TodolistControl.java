@@ -77,40 +77,48 @@ public class TodolistControl {
     public void markTaskDone(int tarefaSelecionada) {
         // Marca a task selecionada como concluída
         if (tarefaSelecionada >= 0 && tarefaSelecionada < tasks.size()) {
-
-            int resposta = JOptionPane.showConfirmDialog(null, "Você concluiu essa tarefa?", "TODO-LIST",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE); // Pergunta ao usuário se ele concluiu a
-                                                                              // tarefa
-
-            if (resposta == JOptionPane.YES_OPTION) { // Caso escolha 'YES' , a tarefa é marcada como concluída
-                Task task = tasks.get(tarefaSelecionada);
-
-                JOptionPane.showMessageDialog(null, "Tarefa concluída", "TODO-LIST", JOptionPane.INFORMATION_MESSAGE); // Notifica
-                                                                                                                       // o
-                                                                                                                       // usuário
-                                                                                                                       // de
-                                                                                                                       // que
-                                                                                                                       // a
-                                                                                                                       // tarefa
-                                                                                                                       // foi
-                                                                                                                       // concluída
-                task.setDone(true);
-                updateTaskList();
+            Task task = tasks.get(tarefaSelecionada);
+            if (!task.isDone()) { // Verifica se a tarefa ainda não está concluída
+                int resposta = JOptionPane.showConfirmDialog(null, "Você concluiu essa tarefa?", "TODO-LIST",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE); // Pergunta ao usuário se ele concluiu a tarefa
+    
+                if (resposta == JOptionPane.YES_OPTION) { // Caso escolha 'YES' , a tarefa é marcada como concluída
+                    JOptionPane.showMessageDialog(null, "Tarefa concluída", "TODO-LIST", JOptionPane.INFORMATION_MESSAGE); // Notifica o usuário de que a tarefa foi concluída
+                    task.setDone(true);
+                    updateTaskList();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Esta tarefa já está concluída", "TODO-LIST", JOptionPane.INFORMATION_MESSAGE); // Informa o usuário que a tarefa já está concluída
             }
         }
     }
+    
+    
 
     public void filterTasks(JComboBox<String> filterComboBox) {
         // Filtra as tasks com base na seleção do JComboBox
         String filter = (String) filterComboBox.getSelectedItem();
         listModel.clear();
         for (Task task : tasks) {
-            if (filter.equals("Todas") || (filter.equals("Ativas") &&
-                    !task.isDone()) || (filter.equals("Concluídas") && task.isDone())) {
-                listModel.addElement(task.getNome());
+            boolean taskMatchesFilter = false;
+            if (filter.equals("Todas")) {
+                taskMatchesFilter = true;
+            } else if (filter.equals("Ativas") && !task.isDone()) {
+                taskMatchesFilter = true;
+            } else if (filter.equals("Concluídas") && task.isDone()) {
+                taskMatchesFilter = true;
+            }
+            
+            if (taskMatchesFilter) {
+                String taskName = task.getNome();
+                if (task.isDone()) {
+                    taskName += " (Concluída)";
+                }
+                listModel.addElement(taskName);
             }
         }
     }
+    
 
     public void clearCompletedTasks() {
         // Limpa todas as tasks concluídas da lista

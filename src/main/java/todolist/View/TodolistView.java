@@ -55,8 +55,7 @@ public class TodolistView extends JFrame {
         taskList = new JList<>(listModel);
 
 
-        new TodolistDAO().criaTabela();// Criando a tabela
-        // Inicializa campos de entrada, botões e JComboBox
+        new TodolistDAO().criaTabela();
 
         taskInputNameField = new JTextField("Digite sua tarefa...");
         addButton = new JButton("Adicionar Tarefa");
@@ -68,7 +67,7 @@ public class TodolistView extends JFrame {
         // Configuração do painel de entrada
         JPanel inputPanel = new JPanel(new BorderLayout());
         inputPanel.add(taskInputNameField, BorderLayout.CENTER);
-        // inputPanel.add(addButton, BorderLayout.EAST);
+    
         inputPanel.add(filterComboBox, BorderLayout.WEST);
         // Configuração do painel de botões
         JPanel buttonPanel = new JPanel();
@@ -77,17 +76,15 @@ public class TodolistView extends JFrame {
         buttonPanel.add(addButton);
         buttonPanel.add(deleteButton);
         buttonPanel.add(markDoneButton);
-        // buttonPanel.add(filterComboBox);
         buttonPanel.add(clearCompletedButton);
-        // Adiciona os componentes ao painel principal
         mainPanel.add(inputPanel, BorderLayout.NORTH);
         mainPanel.add(new JScrollPane(taskList), BorderLayout.CENTER);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
-        // Adiciona o painel principal à janela
+       
         this.add(mainPanel);
-        // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        
 
-        // Estilização :
+     
         taskInputNameField.setBackground(Color.gray);
         taskInputNameField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         // taskInputNameField.setForeground(Color.WHITE);
@@ -114,31 +111,28 @@ public class TodolistView extends JFrame {
         clearCompletedButton.setBackground(Color.gray);
         clearCompletedButton.setForeground(Color.WHITE);
         clearCompletedButton.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 10), 5));
-        // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-        // Configuração de Listener para os Eventos
+       
         TodolistControl controller = new TodolistControl(tasks, taskList, listModel);
-        // ActionListeners :
-        addButton.addActionListener(e -> { // Adicionando o ouvinte ao addButton
-            controller.addTask(taskInputNameField.getText().trim()); // Ao clicar no botão 'Adicionar' executa o método addTask().
+     
+        addButton.addActionListener(e -> { 
+            controller.addTask(taskInputNameField.getText().trim()); 
         });
 
-        deleteButton.addActionListener(e -> { // Adicionando o ouvinte ao deleteButton
-            controller.deleteTask(taskList.getSelectedIndex()); // Ao clicar no botão 'Excluir' executa o método deleteTask().
+        deleteButton.addActionListener(e -> { 
+            controller.deleteTask(taskList.getSelectedIndex());
         });
 
-        markDoneButton.addActionListener(e -> { // Adicionando o ouvinte ao markDoneButton
-            controller.markTaskDone(taskList.getSelectedIndex());// Ao clicar no botão 'Concluir a tarefa' executa o método markTaskDone().
+        markDoneButton.addActionListener(e -> {
+            controller.markTaskDone(taskList.getSelectedIndex());
         });
 
-        filterComboBox.addActionListener(e -> { // Adicionando o ouvinte ao filterComboBox
-            controller.filterTasks(filterComboBox);// Ao clicar no comboBox executa o método filterTask(), que filtra as tarefas
-                          // que devem aparecer
+        filterComboBox.addActionListener(e -> { 
+            controller.filterTasks(filterComboBox);
         });
 
-        clearCompletedButton.addActionListener(e -> { // Adicionando o ouvinte ao clearCompletedButton
-            controller.clearCompletedTasks(); // Ao clicar no botão 'Limpar tarefas concluídas', executar o método
-                                   // clearCompletedTasks().
+        clearCompletedButton.addActionListener(e -> { 
+            controller.clearCompletedTasks();
         });
         
 
@@ -161,8 +155,8 @@ public class TodolistView extends JFrame {
                 }
 
             }
-        }); // Adicionando o ouvinte a taskList
-        // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        }); 
+   
 
         // MouseListeners :
         taskList.addMouseListener(new MouseAdapter() {
@@ -178,10 +172,9 @@ public class TodolistView extends JFrame {
                 }
             }
 
-        }); // Adiciona o ouvinte a taskList
-        // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        }); 
+   
 
-        // FocusListeners :
         taskInputNameField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) { // Quando o campo é clicado , "ganha o foco"
@@ -199,22 +192,19 @@ public class TodolistView extends JFrame {
                 }
             }
         });
-        // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-        // WindowListener :
         this.addWindowListener(new WindowAdapter() { // Adiciona o ouvinte ao JFrame
 
             @Override
             public void windowClosing(WindowEvent e) {
-                close(); // Ao clicar no "X" do JFrame, é perguntado ao usuário se ele realmente deseja
-                         // fechar o programa
+                close(); 
             }
 
         });
 
         controller.updateTaskList();
     }
-    // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 
     public void run() {
         // Exibe a janela
